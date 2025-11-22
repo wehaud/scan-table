@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# Тестовое задание: Таблица сканирований
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Стек:**React, TypeScript, AntDesign, TanStack Query, MobX, Axios, Express, PostgreSQL
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Функционал
 
-### `npm start`
+- Пагинация через TanStack Query (React Query)  
+- Фильтрация по IP и статусу  
+- Удаление с подтверждением (Popconfirm)  
+- Массовое удаление через MobX  
+- Переход на карточку IP  
+- Мини-backend с API и Swagger 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Запуск проекта
 
-### `npm test`
+### 1. PostgreSQL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Создать базу данных и таблицу scans:
 
-### `npm run build`
+```sql
+CREATE TABLE scans (
+  id SERIAL PRIMARY KEY,
+  ip VARCHAR(50),
+  status VARCHAR(10),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Настроить .env файл в backend:
+```bash
+DB_USER=postgres
+DB_PASSWORD=yourpassword
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=scans_db
+PORT=5000
+MAX_PAGE_SIZE=50
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Заполнение базы тестовыми данными
 
-### `npm run eject`
+В проекте есть скрипт seed.ts, который создаёт таблицу scans (если её нет) и добавляет 1000 тестовых записей.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Для запуска:
+```bash
+cd backend
+npm install
+npx ts-node src/seed.ts
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+> [!TIP]
+> Приложение будет доступно на http://localhost:3000
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 4. Backend
+```bash
+cd backend
+npm install
+npm run dev   # запуск сервера с авто-перезапуском (nodemon)
+npm start     # запуск сервера один раз (ts-node)
+```
 
-## Learn More
+> [!TIP]
+> API доступно на http://localhost:5000
+> Swagger документация: http://localhost:5000/api-docs
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Структура
+```bash
+src/
+  components/
+    ScanTable.tsx       # Таблица сканов с фильтрацией, пагинацией и выделением строк
+    ScanFilters.tsx     # Фильтры по IP и статусу
+    IpCard.tsx          # Карточка IP / Типа продукт(?)
+    AppLayout.tsx
+  stores/
+    selectedStore.ts    # MobX store для выделенных строк
+  types.ts
+  App.tsx
+  index.tsx
+
+backend/
+  src/
+    index.ts
+    types.ts
+    services/
+      scanService.ts    
+  package.json
+  tsconfig.json
+```

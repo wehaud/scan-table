@@ -1,25 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { IpCard } from "./components/ipCard";
+import { ScanTable } from "./components/scanTable";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AppLayout } from "./components/appLayout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<ScanTable />} />
+          <Route path="/ip/:ip" element={<IpCard />} />
+        </Routes>
+      </AppLayout>
+    </BrowserRouter>
   );
 }
 
