@@ -1,8 +1,8 @@
 import "./App.css";
-import { IpCard } from "./components/ipCard";
-import { ScanTable } from "./components/scanTable";
+import { IpCard } from "./features/ip/components/IpCard";
+import { ScanTable } from "./features/scans/components/ScanTable";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AppLayout } from "./components/appLayout";
+import { AppLayout } from "./app/AppLayout";
 
 function App() {
   return (

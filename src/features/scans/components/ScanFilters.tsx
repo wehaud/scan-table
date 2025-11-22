@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Select, Form } from "antd";
-import { ScanStatus } from "../types";
-import debounce from "lodash.debounce";
+import { useDebounce } from "../../../shared/hooks/useDebounce";
+import { ScanStatus } from "../../../types";
 
 const { Option } = Select;
 
@@ -20,16 +20,10 @@ export const ScanFilters: React.FC<Props> = ({
 }) => {
   const [localIp, setLocalIp] = useState(filterIp);
 
-  const debouncedSetIp = useMemo(
-    () => debounce((val: string) => setFilterIp(val), 500),
-    [setFilterIp]
-  );
+  const debouncedSetIp = useDebounce(setFilterIp, 500);
 
   useEffect(() => {
     debouncedSetIp(localIp);
-    return () => {
-      debouncedSetIp.cancel();
-    };
   }, [localIp, debouncedSetIp]);
 
   return (
@@ -50,8 +44,11 @@ export const ScanFilters: React.FC<Props> = ({
           style={{ width: 160 }}
           allowClear
         >
-          <Option value={ScanStatus.Active}>Active</Option>
-          <Option value={ScanStatus.Inactive}>Inactive</Option>
+          {Object.values(ScanStatus).map((status) => (
+            <Option key={status} value={status}>
+              {status}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
     </Form>

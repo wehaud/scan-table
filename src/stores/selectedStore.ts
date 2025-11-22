@@ -1,26 +1,34 @@
 import { makeAutoObservable } from "mobx";
 
 class SelectedStore {
-  selectedIds: number[] = [];
+  private selectedIdsSet: Set<number> = new Set();
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get selectedIds(): number[] {
+    return Array.from(this.selectedIdsSet);
   }
 
   setSelectedIds(ids: number[]) {
-    this.selectedIds = ids;
+    this.selectedIdsSet = new Set(ids);
   }
 
   toggle(id: number) {
-    if (this.selectedIds.includes(id)) {
-      this.selectedIds = this.selectedIds.filter((i) => i !== id);
+    if (this.selectedIdsSet.has(id)) {
+      this.selectedIdsSet.delete(id);
     } else {
-      this.selectedIds.push(id);
+      this.selectedIdsSet.add(id);
     }
   }
 
   clear() {
-    this.selectedIds = [];
+    this.selectedIdsSet.clear();
+  }
+
+  has(id: number) {
+    return this.selectedIdsSet.has(id);
   }
 }
 
