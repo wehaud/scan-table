@@ -1,8 +1,8 @@
 # Тестовое задание: Таблица сканирований
 
-**Стек:**React, TypeScript, AntDesign, TanStack Query, MobX, Axios, Express, PostgreSQL
+**Стек:** React, TypeScript, AntDesign, TanStack Query, MobX, Axios, Express, PostgreSQL
 
----
+
 
 ## Функционал
 
@@ -13,7 +13,7 @@
 - Переход на карточку IP  
 - Мини-backend с API и Swagger 
 
----
+
 
 ## Запуск проекта
 
@@ -44,7 +44,8 @@ MAX_PAGE_SIZE=50
 
 ### 2. Заполнение базы тестовыми данными
 
-В проекте есть скрипт seed.ts, который создаёт таблицу scans (если её нет) и добавляет 1000 тестовых записей.
+> [!TIP]
+> В проекте есть скрипт seed.ts, который создаёт таблицу scans (если её нет) и добавляет 1000 тестовых записей.
 
 Для запуска:
 ```bash
@@ -73,9 +74,11 @@ npm start     # запуск сервера один раз (ts-node)
 
 > [!TIP]
 > API доступно на http://localhost:5000
+
+> [!TIP]
 > Swagger документация: http://localhost:5000/api-docs
 
----
+
 
 ## Структура
 ```bash
