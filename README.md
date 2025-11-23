@@ -38,8 +38,6 @@ DB_PASSWORD=yourpassword
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=scans_db
-PORT=5000
-MAX_PAGE_SIZE=50
 ```
 
 ### 2. Заполнение базы тестовыми данными
@@ -52,6 +50,8 @@ MAX_PAGE_SIZE=50
 cd backend
 npm install
 npx ts-node src/seed.ts
+# или
+# node seed.js
 ```
 
 ### 3. Frontend
@@ -83,23 +83,44 @@ npm start     # запуск сервера один раз (ts-node)
 ## Структура
 ```bash
 src/
-  components/
-    ScanTable.tsx       # Таблица сканов с фильтрацией, пагинацией и выделением строк
-    ScanFilters.tsx     # Фильтры по IP и статусу
-    IpCard.tsx          # Карточка IP / Типа продукт(?)
-    AppLayout.tsx
+  api/
+    scans.ts                      # Запросы к api
+  app/
+    AppLayout.tsx               
+  features/
+    scans/
+      components/
+        ScanTable.tsx            # Таблица
+        ScanFilters.tsx          # Фильтры
+        ScanTableActions.tsx
+        SelectionActions.tsx     # Кнопочки
+      hooks/
+        useScans.ts              # Получение сканов
+        useScanTableState.ts     # Фильтрация и пагинация
+        useScanSelection.ts      # Выделение
+        useDeleteScan.ts         # Удаление
+        useBulkDeleteScan.ts     # Удаление нескольких
+    ip/
+      components/
+        IpCard.tsx
+  shared/
+    hooks/
+      useDebounce.ts             
   stores/
-    selectedStore.ts    # MobX store для выделенных строк
-  types.ts
-  App.tsx
-  index.tsx
+    selectedStore.ts             # Стор для выделенных
 
 backend/
   src/
     index.ts
+    config.ts
+    db.ts
     types.ts
+    seed.ts                      # Заполнение бд демо данными
+    routes/
+      scanRoutes.ts
     services/
-      scanService.ts    
-  package.json
-  tsconfig.json
+      scanService.ts
+    swagger.ts
+    utils/
+      parseNumber.ts
 ```
